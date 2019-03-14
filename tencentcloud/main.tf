@@ -1,3 +1,11 @@
+terraform {
+  backend "http" {
+    address = "http://127.0.0.1:8080"
+    lock_address = "http://127.0.0.1:8080"
+    unlock_address = "http://127.0.0.1:8080"
+  }
+}
+
 module "vpc" {
   source = "./vpc"
   secret_id = "${var.secret_id}"
@@ -34,4 +42,8 @@ module "vm" {
   vpc_id = "${module.vpc.vpc_id}"
   subnet_id = "${module.subnet.subnet_id}"
   security_group_id = "${module.security_group.security_group_id}"
+}
+
+output "vpc_id" {
+  value = "${module.vpc.vpc_id}"
 }
