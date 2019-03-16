@@ -1,0 +1,9 @@
+{
+  "variable" : {
+    "secret_id" : {},
+    "secret_key" : {},
+    "region" : {},
+    "vpc" : {},
+    "vpc_cidr_block" : {}
+  }
+}

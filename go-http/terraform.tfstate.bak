@@ -1,0 +1,256 @@
+{
+    "version": 3,
+    "terraform_version": "0.11.11",
+    "serial": 62,
+    "lineage": "97b3a021-9cd3-bb3c-e0c4-54bc6f2b7e3e",
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {
+                "vpc_id": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "vpc-kzwa80j8"
+                }
+            },
+            "resources": {},
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "security_group"
+            ],
+            "outputs": {
+                "security_group_id": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "sg-ftw360xb"
+                }
+            },
+            "resources": {
+                "tencentcloud_security_group.web_access": {
+                    "type": "tencentcloud_security_group",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "sg-ftw360xb",
+                        "attributes": {
+                            "description": "make it accessible the web application",
+                            "id": "sg-ftw360xb",
+                            "name": "web access"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.security_group.provider.tencentcloud"
+                },
+                "tencentcloud_security_group_rule.egress-accept": {
+                    "type": "tencentcloud_security_group_rule",
+                    "depends_on": [
+                        "tencentcloud_security_group.web_access"
+                    ],
+                    "primary": {
+                        "id": "ipProtocol=tcp\u0026portRange=22\u0026sgId=sg-ftw360xb\u0026direction=egress\u0026action=accept\u0026cidrIp=0.0.0.0/0",
+                        "attributes": {
+                            "cidr_ip": "0.0.0.0/0",
+                            "id": "ipProtocol=tcp\u0026portRange=22\u0026sgId=sg-ftw360xb\u0026direction=egress\u0026action=accept\u0026cidrIp=0.0.0.0/0",
+                            "ip_protocol": "tcp",
+                            "policy": "accept",
+                            "port_range": "22",
+                            "security_group_id": "sg-ftw360xb",
+                            "type": "egress"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.security_group.provider.tencentcloud"
+                },
+                "tencentcloud_security_group_rule.ssh": {
+                    "type": "tencentcloud_security_group_rule",
+                    "depends_on": [
+                        "tencentcloud_security_group.web_access"
+                    ],
+                    "primary": {
+                        "id": "ipProtocol=tcp\u0026portRange=22\u0026sgId=sg-ftw360xb\u0026direction=ingress\u0026action=accept\u0026cidrIp=0.0.0.0/0",
+                        "attributes": {
+                            "cidr_ip": "0.0.0.0/0",
+                            "id": "ipProtocol=tcp\u0026portRange=22\u0026sgId=sg-ftw360xb\u0026direction=ingress\u0026action=accept\u0026cidrIp=0.0.0.0/0",
+                            "ip_protocol": "tcp",
+                            "policy": "accept",
+                            "port_range": "22",
+                            "security_group_id": "sg-ftw360xb",
+                            "type": "ingress"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.security_group.provider.tencentcloud"
+                },
+                "tencentcloud_security_group_rule.web": {
+                    "type": "tencentcloud_security_group_rule",
+                    "depends_on": [
+                        "tencentcloud_security_group.web_access"
+                    ],
+                    "primary": {
+                        "id": "direction=ingress\u0026action=accept\u0026cidrIp=0.0.0.0/0\u0026ipProtocol=tcp\u0026portRange=80,3000,8080\u0026sgId=sg-ftw360xb",
+                        "attributes": {
+                            "cidr_ip": "0.0.0.0/0",
+                            "id": "direction=ingress\u0026action=accept\u0026cidrIp=0.0.0.0/0\u0026ipProtocol=tcp\u0026portRange=80,3000,8080\u0026sgId=sg-ftw360xb",
+                            "ip_protocol": "tcp",
+                            "policy": "accept",
+                            "port_range": "80,3000,8080",
+                            "security_group_id": "sg-ftw360xb",
+                            "type": "ingress"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.security_group.provider.tencentcloud"
+                }
+            },
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "subnet"
+            ],
+            "outputs": {
+                "subnet_id": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "subnet-l01n7oq7"
+                }
+            },
+            "resources": {
+                "tencentcloud_subnet.subnet": {
+                    "type": "tencentcloud_subnet",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "subnet-l01n7oq7",
+                        "attributes": {
+                            "availability_zone": "ap-chengdu-1",
+                            "cidr_block": "10.1.1.0/24",
+                            "id": "subnet-l01n7oq7",
+                            "name": "subnet1",
+                            "vpc_id": "vpc-kzwa80j8"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.subnet.provider.tencentcloud"
+                }
+            },
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "vm"
+            ],
+            "outputs": {
+                "vm_image_id": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": [
+                        "img-6ns5om13"
+                    ]
+                },
+                "vm_instance_id": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": [
+                        "ins-kyin25v1"
+                    ]
+                },
+                "vm_private_id": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": [
+                        "10.1.1.11"
+                    ]
+                },
+                "vm_public_id": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": [
+                        "148.70.158.3"
+                    ]
+                }
+            },
+            "resources": {
+                "tencentcloud_instance.vm": {
+                    "type": "tencentcloud_instance",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "ins-kyin25v1",
+                        "attributes": {
+                            "allocate_public_ip": "true",
+                            "availability_zone": "ap-chengdu-1",
+                            "data_disks.#": "0",
+                            "id": "ins-kyin25v1",
+                            "image_id": "img-6ns5om13",
+                            "instance_name": "vm1",
+                            "instance_status": "RUNNING",
+                            "instance_type": "I2.MEDIUM4",
+                            "internet_max_bandwidth_out": "1",
+                            "password": "Ab888888",
+                            "private_ip": "10.1.1.11",
+                            "public_ip": "148.70.158.3",
+                            "security_groups.#": "1",
+                            "security_groups.627510844": "sg-ftw360xb",
+                            "subnet_id": "subnet-l01n7oq7",
+                            "system_disk_size": "50",
+                            "system_disk_type": "CLOUD_BASIC",
+                            "vpc_id": "vpc-kzwa80j8"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.vm.provider.tencentcloud"
+                }
+            },
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "vpc"
+            ],
+            "outputs": {
+                "vpc_id": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "vpc-kzwa80j8"
+                }
+            },
+            "resources": {
+                "tencentcloud_vpc.vpc": {
+                    "type": "tencentcloud_vpc",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "vpc-kzwa80j8",
+                        "attributes": {
+                            "cidr_block": "10.1.0.0/16",
+                            "id": "vpc-kzwa80j8",
+                            "name": "vpc1"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "module.vpc.provider.tencentcloud"
+                }
+            },
+            "depends_on": []
+        }
+    ]
+}
