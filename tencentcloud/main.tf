@@ -1,3 +1,4 @@
+#Save results to remote http server
 terraform {
   backend "http" {
     address = "http://127.0.0.1:8080"
@@ -6,6 +7,16 @@ terraform {
   }
 }
 
+#Get the input from remote http server
+data "http" "input" {
+  url = "http://127.0.0.1:8080/vpc/input"
+
+  request_headers {
+    "Accept" = "application/json"
+  }
+}
+
+#Call module to create cloud resources
 module "vpc" {
   source = "./vpc"
   secret_id = "${var.secret_id}"
@@ -13,6 +24,10 @@ module "vpc" {
   region = "ap-chengdu"
   vpc = "vpc1"
   vpc_cidr_block = "10.1.0.0/16" 
+}
+
+output "vpc_id" {
+  value="${module.vpc.vpc_id}"
 }
 
 module "subnet" {
@@ -26,11 +41,19 @@ module "subnet" {
   subnet_cidr_block = "10.1.1.0/24"
 }
 
+output "subnet_id" {
+  value="${module.subnet.subnet_id}"
+}
+
 module "security_group" {
   source = "./security-group"
   secret_id = "${var.secret_id}"
   secret_key = "${var.secret_key}"
   region = "ap-chengdu"
+}
+
+output "security_group_id" {
+  value = "${module.security_group.security_group_id}"
 }
 
 module "vm" {
@@ -44,6 +67,6 @@ module "vm" {
   security_group_id = "${module.security_group.security_group_id}"
 }
 
-output "vpc_id" {
-  value="${module.vpc.vpc_id}"
+output "instance_id" {
+  value = "${module.vm.vm_instance_id}"
 }
