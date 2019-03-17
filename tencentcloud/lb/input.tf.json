@@ -1,0 +1,11 @@
+{
+  "variable" : {
+    "secret_id" : {},
+    "secret_key" : {},
+    "region" : {},
+    "vpc_id" : {},
+    "name" : {},
+    "type" : {},
+    "forward" : {},
+  }
+}

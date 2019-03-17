@@ -20,8 +20,8 @@ resource "tencentcloud_instance" "vm" {
   count = "${var.count}"
   
   provisioner "file" {
-    source = "scripts/init.sh"
-    destination = "/etc/init.sh"
+    source = "scripts/main"
+    destination = "/root/main"
    
     connection {
       host = "${tencentcloud_instance.vm.public_ip}"

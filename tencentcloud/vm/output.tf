@@ -1,5 +1,5 @@
 output "vm_instance_id" {
-  value = "${tencentcloud_instance.vm.*.id}"
+  value = "${tencentcloud_instance.vm.0.id}"
 }
 
 output "vm_private_id" {

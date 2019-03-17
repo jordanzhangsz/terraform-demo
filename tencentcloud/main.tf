@@ -1,3 +1,9 @@
+provider "tencentcloud" {
+  secret_id = "${var.secret_id}"
+  secret_key = "${var.secret_key}"
+  region = "ap-chengdu"
+}
+
 #Save results to remote http server
 terraform {
   backend "http" {
@@ -70,3 +76,32 @@ module "vm" {
 output "instance_id" {
   value = "${module.vm.vm_instance_id}"
 }
+
+module "lb" {
+  source = "./lb"
+  secret_id = "${var.secret_id}"
+  secret_key = "${var.secret_key}"
+  region = "ap-chengdu"
+  vpc_id = "${module.vpc.vpc_id}"
+  name = "lb1"
+  type = "OPEN"
+  forward = "APPLICATION"
+}
+
+output "lb_id" {
+  value = "${module.lb.lb_id}"
+}
+
+resource "tencentcloud_alb_server_attachment" "lb_attachment1" {
+  loadbalancer_id = "${module.lb.lb_id}"
+  listener_id="lbl-4f30tusj"
+  #location_id = "loc-i858qv1l"
+  backends = [
+    {
+      instance_id = "${module.vm.vm_instance_id}"
+      port = 8080
+      weight = 100
+    }
+  ]
+}
+
