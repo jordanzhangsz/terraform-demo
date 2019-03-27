@@ -94,7 +94,7 @@ output "lb_id" {
 
 resource "tencentcloud_alb_server_attachment" "lb_attachment1" {
   loadbalancer_id = "${module.lb.lb_id}"
-  listener_id="lbl-4f30tusj"
+  listener_id="lbl-rev8ejcz"
   #location_id = "loc-i858qv1l"
   backends = [
     {

@@ -1,0 +1,11 @@
+FROM golang:alpine AS builder
+WORKDIR $GOPATH/src/github.com/jordanzhangsz/terraform-demo/go-http
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -1dflags '-w'
+
+FROM scratch
+WORKDIR $GOPATH/src/github.com/jordanzhangsz/terraform-demo/go-http
+LABEL maintainer = "Jordan Zhang"
+COPY --from builder /go/src/github.com/jordanzhangsz/terraform-demo/go-http .
+ENTRYPOINT ["/go-http"]
+

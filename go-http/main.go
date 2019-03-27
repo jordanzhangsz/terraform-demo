@@ -34,6 +34,6 @@ func HandleTerraformVPCInput(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", HandleTerraformOutput)
 	http.HandleFunc("/vpc/input", HandleTerraformVPCInput)
+	fmt.Println("Server is started at port 8080 ...")
 	http.ListenAndServe(":8080", nil)
-	fmt.Println("Server is started at port 8080 successfully.")
 }

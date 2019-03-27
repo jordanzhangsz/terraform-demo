@@ -1,0 +1,4 @@
+FROM alpine
+COPY go-http /usr/bin
+ENTRYPOINT ["go-http"]
+
